@@ -41,9 +41,10 @@ RUN echo "===> Installing copier and Related Packages ..."  &&\
 pip install --trusted-host=pypi.org --trusted-host=github.com \
 --trusted-host=files.pythonhosted.org -r requirements.txt
 
-RUN pip3 install --trusted-host=pypi.org --trusted-host=github.com \
---trusted-host=files.pythonhosted.org \
---force-reinstall MarkupSafe==2.0.1
+# Uncomment the below when building for copier versions earlier than 6.0.0
+# RUN pip3 install --trusted-host=pypi.org --trusted-host=github.com \
+# --trusted-host=files.pythonhosted.org \
+# --force-reinstall MarkupSafe==2.0.1
 
 RUN ln -s $(which python3) /usr/bin/python
 
