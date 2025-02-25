@@ -1,0 +1,39 @@
+volumes:
+  histdir:
+
+services:
+  sre:
+    image: sre/res-cli
+    platform: linux/amd64
+    container_name: res-cli
+    hostname: res-cli
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        UID: 501
+        GID: 20
+    working_dir: /home/svcres/git
+    env_file: ".env-res"
+    ports:
+      - "3222:22"
+      - "6000:5000"
+    cap_add:
+      - ALL
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+      memlock:
+        soft: -1
+        hard: -1      
+    volumes:
+      - $HOME/.aws:/home/svcres/.aws
+      - $HOME/.config:/home/svcres/.config
+      - $HOME/.kube:/home/svcres/.kube
+      - $HOME/.zsh_history_res-cli:/home/svcres/.zsh_history:rw
+      - $HOME/.ssh.docker:/home/svcres/.ssh
+      - $HOME/git:/home/svcres/git
+      - $PWD/entrypoint.sh:/usr/local/bin/entrypoint.sh
+      - $PWD:/opt/infra
+      - /var/run/docker.sock:/var/run/docker.sock
